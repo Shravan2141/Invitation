@@ -1,8 +1,15 @@
 [build]
-  publish = "src"
-  command = "# no build command needed"
+  base = "src"
+  publish = "."
+  command = "pip install -r requirements.txt"
+
+[build.environment]
+  PYTHON_VERSION = "3.9"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[context.production]
+  command = "pip install -r requirements.txt && gunicorn app:app"
