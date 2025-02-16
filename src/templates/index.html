@@ -27,31 +27,17 @@
             </p>
         </div>
 
-        <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8">
-            <h1 class="text-3xl font-bold text-center mb-6">Begin Your Experience</h1>
-            
-            <div id="camera-section" class="text-center">
-                <button id="beginExperienceBtn" 
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
-                    Begin the Experience
-                </button>
-                <p id="errorMessage" class="mt-4 text-red-500 hidden"></p>
-            </div>
-
-            <div id="face-detection-section" class="hidden mt-6">
-                <div class="bg-gray-100 rounded-lg p-4">
-                    <h2 class="text-xl font-semibold mb-4">Face Detection</h2>
-                    <div id="video-container" class="mb-4">
-                        <!-- Video feed will be dynamically added here -->
-                    </div>
-                    <button id="runFaceDetectionBtn" 
-                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Detect Faces
-                    </button>
-                </div>
-            </div>
+        <div class="text-center text-white">
+            <button id="startButton" onclick="startExperience()"
+                    class="bg-transparent border-2 border-white hover:bg-white text-white hover:text-black 
+                           font-bold py-4 px-8 rounded-lg tracking-wider
+                           transition-all duration-300 transform hover:scale-110
+                           shadow-lg hover:shadow-xl"> 
+                BEGIN THE EXPERIENCE
+            </button>
+            <p id="errorMessage" class="mt-4 text-red-500 hidden"></p>
         </div>
-
+    </div>
         <script>
             document.getElementById('beginExperienceBtn').addEventListener('click', function() {
                 // Hide begin button section
