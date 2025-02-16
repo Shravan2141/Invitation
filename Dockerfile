@@ -1,13 +1,15 @@
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Install system dependencies and debugging tools
+# Install system dependencies and OpenCV dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
     wget \
     git \
     procps \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
@@ -38,6 +40,7 @@ EXPOSE 5000
 ENV PYTHONUNBUFFERED=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV PIP_VERBOSE=1
+ENV NAME Invitation
 
 # Run debugging script or the application
 CMD ["/bin/bash", "-c", "./debug_deployment.sh || gunicorn --bind 0.0.0.0:5000 app:app"]
