@@ -1,12 +1,17 @@
 services:
   - type: web
-    name: invitation-app
-    env: docker
+    name: invitation-face-detection
+    runtime: docker
+    branch: main
     buildCommand: docker build -t invitation-app .
     startCommand: docker run -p 5000:5000 invitation-app
-    plan: free
     envVars:
       - key: PYTHON_VERSION
-        value: 3.9.18
-      - key: PORT
-        value: 5000
+        value: 3.9.7
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_DEBUG
+        value: "0"
+    healthCheckPath: /
+    autoDeploy: true
+    plan: free
