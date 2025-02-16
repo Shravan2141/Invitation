@@ -1,53 +1,64 @@
-# Invitation Face Detection App
+# Invitation Face Detection Web App
+
+## Project Overview
+A web application for face detection using Flask and OpenCV, designed for the Techkshetra event.
+
+## Features
+- Interactive web interface
+- Face detection functionality
+- Docker and Render deployment support
 
 ## Local Development Setup
 
 ### Prerequisites
 - Python 3.9+
-- pip
-- virtualenv
+- Docker (optional)
 
 ### Installation Steps
 1. Clone the repository
-2. Navigate to the project directory
-3. Create a virtual environment:
-   ```
+2. Create a virtual environment:
+   ```bash
    python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
-4. Activate the virtual environment:
-   - Windows: `.\venv\Scripts\Activate.ps1`
-   - Mac/Linux: `source venv/bin/activate`
-5. Install dependencies:
-   ```
+3. Install dependencies:
+   ```bash
    pip install -r src/requirements.txt
    ```
-6. Run the application:
-   ```
+4. Run the application:
+   ```bash
    python src/app.py
    ```
 
-## Deployment on Render
+## Docker Deployment
 
-### Deployment Steps
-1. Create a Render account
-2. Connect your GitHub repository
-3. Create a new Web Service
-4. Select Docker deployment
-5. Set build command: `docker build -t invitation-app .`
-6. Set start command: `docker run -p 5000:5000 invitation-app`
+### Build Docker Image
+```bash
+docker build -t invitation-app .
+```
 
-## Features
-- Real-time face detection
-- Web-based video streaming
-- Simple and intuitive interface
+### Run Docker Container
+```bash
+docker run -p 5000:5000 invitation-app
+```
+
+## Render Deployment
+1. Fork the repository
+2. Connect to Render
+3. Select "Web Service"
+4. Choose Docker runtime
+5. Deploy
+
+## Troubleshooting
+- Ensure camera permissions are granted
+- Check OpenCV dependencies
+- Verify Python version compatibility
 
 ## Technologies
 - Flask
 - OpenCV
-- Python
 - Docker
+- Render
 
-## Troubleshooting
-- Ensure all dependencies are installed
-- Check camera permissions
-- Verify Python and pip versions
+## License
+Open-source project
