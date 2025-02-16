@@ -1,64 +1,47 @@
-# Invitation Face Detection Web App
+# TECHKSHETRA 25 Face Detection Web App
 
-## Project Overview
-A web application for face detection using Flask and OpenCV, designed for the Techkshetra event.
+## Overview
+This is a web-based face detection application that provides a futuristic, tech-inspired user interface for guest verification.
 
 ## Features
-- Interactive web interface
-- Face detection functionality
-- Docker and Render deployment support
+- Real-time face detection using browser's MediaDevices API
+- Animated scanning and targeting effects
+- Automatic link opening upon successful face detection
 
-## Local Development Setup
+## Prerequisites
+- Modern web browser with camera support
+- Python 3.8+
+- Flask
 
-### Prerequisites
-- Python 3.9+
-- Docker (optional)
-
-### Installation Steps
+## Setup and Installation
 1. Clone the repository
-2. Create a virtual environment:
+2. Create a virtual environment
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    ```
-3. Install dependencies:
+3. Install dependencies
    ```bash
    pip install -r src/requirements.txt
    ```
-4. Run the application:
-   ```bash
-   python src/app.py
-   ```
 
-## Docker Deployment
-
-### Build Docker Image
+## Running the Application
 ```bash
-docker build -t invitation-app .
+python src/app.py
 ```
 
-### Run Docker Container
-```bash
-docker run -p 5000:5000 invitation-app
-```
-
-## Render Deployment
-1. Fork the repository
-2. Connect to Render
-3. Select "Web Service"
-4. Choose Docker runtime
-5. Deploy
-
-## Troubleshooting
-- Ensure camera permissions are granted
-- Check OpenCV dependencies
-- Verify Python version compatibility
+## Usage
+1. Grant camera permissions when prompted
+2. Position your face in the camera view
+3. Wait for face detection (max 20 seconds)
+4. Upon successful detection, the app will automatically open a link
 
 ## Technologies
+- Python
 - Flask
-- OpenCV
-- Docker
-- Render
+- JavaScript
+- HTML5 Canvas
+- MediaDevices API
 
 ## License
-Open-source project
+[Your License Here]

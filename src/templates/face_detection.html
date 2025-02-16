@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECHKSHETRA 2k25 Face Detection</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            font-family: 'Courier New', monospace;
+            color: #0f0;
+            overflow: hidden;
+        }
+        #videoContainer {
+            position: relative;
+            width: 640px;
+            height: 480px;
+            background-color: #000;
+        }
+        #videoFeed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #redirectMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            text-align: center;
+            background-color: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="videoContainer">
+        <img id="videoFeed" src="{{ url_for('video_feed') }}" alt="Face Detection Stream">
+        <div id="redirectMessage">
+            <h2>Face Detected!</h2>
+            <p>Redirecting to link...</p>
+        </div>
+    </div>
+
+    <script>
+        function checkDetection() {
+            fetch('/check_detection')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const redirectMessage = document.getElementById('redirectMessage');
+                        redirectMessage.style.display = 'block';
+                        setTimeout(() => {
+                            window.location.href = data.url;
+                        }, 2000);
+                    } else {
+                        // Continue checking
+                        setTimeout(checkDetection, 1000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    setTimeout(checkDetection, 1000);
+                });
+        }
+
+        // Start checking for detection
+        checkDetection();
+    </script>
+</body>
+</html>
