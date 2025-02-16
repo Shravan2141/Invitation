@@ -38,43 +38,43 @@
             <p id="errorMessage" class="mt-4 text-red-500 hidden"></p>
         </div>
     </div>
-        <script>
-            document.getElementById('beginExperienceBtn').addEventListener('click', function() {
-                // Hide begin button section
-                document.getElementById('camera-section').classList.add('hidden');
-                
-                // Show face detection section
-                document.getElementById('face-detection-section').classList.remove('hidden');
+    <script>
+    document.getElementById('beginExperienceBtn').addEventListener('click', function() {
+        // Hide begin button section
+        document.getElementById('camera-section').classList.add('hidden');
+        
+        // Show face detection section
+        document.getElementById('face-detection-section').classList.remove('hidden');
 
-                // Run face detection script
-                fetch('/run-face')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            console.log('Face detection script started');
-                        } else {
-                            document.getElementById('errorMessage').textContent = data.message;
-                            document.getElementById('errorMessage').classList.remove('hidden');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        document.getElementById('errorMessage').textContent = 'An error occurred';
-                        document.getElementById('errorMessage').classList.remove('hidden');
-                    });
+        // Run face detection script
+        fetch('/run-face')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    console.log('Face detection script started');
+                } else {
+                    document.getElementById('errorMessage').textContent = data.message;
+                    document.getElementById('errorMessage').classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('errorMessage').textContent = 'An error occurred';
+                document.getElementById('errorMessage').classList.remove('hidden');
             });
+    });
 
-            document.getElementById('runFaceDetectionBtn').addEventListener('click', function() {
-                // Add video feed dynamically
-                const videoContainer = document.getElementById('video-container');
-                const videoElement = document.createElement('img');
-                videoElement.src = '/video_feed';
-                videoElement.alt = 'Face Detection';
-                videoElement.classList.add('w-full', 'rounded-lg', 'border-2', 'border-gray-300');
-                videoContainer.innerHTML = '';
-                videoContainer.appendChild(videoElement);
-            });
-        </script>
+    document.getElementById('runFaceDetectionBtn').addEventListener('click', function() {
+        // Add video feed dynamically
+        const videoContainer = document.getElementById('video-container');
+        const videoElement = document.createElement('img');
+        videoElement.src = '/video_feed';
+        videoElement.alt = 'Face Detection';
+        videoElement.classList.add('w-full', 'rounded-lg', 'border-2', 'border-gray-300');
+        videoContainer.innerHTML = '';
+        videoContainer.appendChild(videoElement);
+    });
+    </script>
     </div>
 
     <script defer src="{{ url_for('static', filename='app.js') }}"></script>
