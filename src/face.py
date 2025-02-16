@@ -53,34 +53,33 @@ def create_success_animation(frame, progress):
     
     return cv2.addWeighted(overlay, 0.3, frame, 0.7, 0)
 
-# Initialize face detection
+# Initialize face detection and camera early
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # Add CAP_DSHOW for faster initialization on Windows
+
+# Set window dimensions
+window_width = 640
+window_height = 480
+
+# Set capture dimensions immediately
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, window_width)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, window_height)
+cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)  # Minimize buffer delay
 
 # Get screen dimensions
 user32 = ctypes.windll.user32
 screen_width = user32.GetSystemMetrics(0)
 screen_height = user32.GetSystemMetrics(1)
 
-# Set window dimensions
-window_width = 640
-window_height = 480
-
 # Calculate window position for center of screen
 window_x = (screen_width - window_width) // 2
 window_y = (screen_height - window_height) // 2
 
 # Create a named window and set it to be always on top
-cv2.namedWindow('TECHKSHETRA 24', cv2.WINDOW_NORMAL)
-cv2.setWindowProperty('TECHKSHETRA 24', cv2.WND_PROP_TOPMOST, 1)
-cv2.moveWindow('TECHKSHETRA 24', window_x, window_y)
-cv2.resizeWindow('TECHKSHETRA 24', window_width, window_height)
-
-# Start video capture
-cap = cv2.VideoCapture(0)
-
-# Set capture dimensions
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, window_width)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, window_height)
+cv2.namedWindow('TECHKSHETRA 25', cv2.WINDOW_NORMAL | cv2.WINDOW_GUI_NORMAL)
+cv2.setWindowProperty('TECHKSHETRA 25', cv2.WND_PROP_TOPMOST, 1)
+cv2.moveWindow('TECHKSHETRA 25', window_x, window_y)
+cv2.resizeWindow('TECHKSHETRA 25', window_width, window_height)
 
 start_time = time.time()
 detection_time = None
@@ -207,10 +206,10 @@ while True:
                                       (20, frame.shape[0]-20))
     
     # Show the frame
-    cv2.imshow('TECHKSHETRA 24', display_frame)
+    cv2.imshow('TECHKSHETRA 25', display_frame)
     
     # Check for window close button or 'q' key
-    if cv2.waitKey(1) & 0xFF == ord('q') or cv2.getWindowProperty('TECHKSHETRA 24', cv2.WND_PROP_VISIBLE) < 1:
+    if cv2.waitKey(1) & 0xFF == ord('q') or cv2.getWindowProperty('TECHKSHETRA 25', cv2.WND_PROP_VISIBLE) < 1:
         break
 
 # Clean up

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techkshetra - Dalmia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 md:py-16">
+        <!-- Main Header Section -->
+        <div class="text-center mb-8 md:mb-16">
+            <h1 class="text-4xl md:text-6xl lg:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-600 mb-6 tracking-wider hover:scale-105 transition-transform duration-300">
+                DLITA'S
+                <span class="block bg-gradient-to-r from-indigo-400 to-cyan-500 bg-clip-text text-transparent mt-4 transform hover:translate-y-[-5px] transition-all duration-300">PRESENTS</span>
+            </h1>
+        </div>
+
+        <!-- Techkshetra Section -->
+        <div class="text-center mb-8 md:mb-16">
+            <h2 class="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white mb-4 tracking-wider hover:scale-105 transition-transform duration-300 animate-glow" style="text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;">
+                TECHKSHETRA
+            </h2>
+            <p class="text-xl md:text-2xl text-white font-light tracking-wide glow">
+                Welcome to our Tech Event
+            </p>
+        </div>
+
+        <div class="text-center text-white">
+            <button id="startButton" onclick="startExperience()"
+                    class="bg-transparent border-2 border-white hover:bg-white text-white hover:text-black 
+                           font-bold py-4 px-8 rounded-lg tracking-wider
+                           transition-all duration-300 transform hover:scale-110
+                           shadow-lg hover:shadow-xl"> 
+                BEGIN THE EXPERIENCE
+            </button>
+            <p id="errorMessage" class="mt-4 text-red-500 hidden"></p>
+        </div>
+    </div>
+
+    <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
