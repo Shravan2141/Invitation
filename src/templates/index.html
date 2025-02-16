@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen ">
     <div class="container mx-auto px-4 py-8 md:py-16">
         <!-- Main Header Section -->
         <div class="text-center mb-8 md:mb-16">
@@ -27,7 +27,12 @@
             </p>
         </div>
 
+        <!-- Face Detection Section -->
         <div class="text-center text-white">
+            <div id="video-container" class="mx-auto max-w-2xl mb-4">
+                <!-- Video feed will be dynamically inserted here -->
+            </div>
+
             <button id="startButton" onclick="startExperience()"
                     class="bg-transparent border-2 border-white hover:bg-white text-white hover:text-black 
                            font-bold py-4 px-8 rounded-lg tracking-wider
@@ -35,48 +40,89 @@
                            shadow-lg hover:shadow-xl"> 
                 BEGIN THE EXPERIENCE
             </button>
+
+            <button id="stopButton" onclick="stopExperience()" 
+                    class="hidden bg-red-500 border-2 border-red-700 hover:bg-red-600 text-white 
+                           font-bold py-4 px-8 rounded-lg tracking-wider
+                           transition-all duration-300 transform hover:scale-110
+                           shadow-lg hover:shadow-xl ml-4">
+                STOP EXPERIENCE
+            </button>
+
             <p id="errorMessage" class="mt-4 text-red-500 hidden"></p>
         </div>
     </div>
-    <script>
-    document.getElementById('beginExperienceBtn').addEventListener('click', function() {
-        // Hide begin button section
-        document.getElementById('camera-section').classList.add('hidden');
-        
-        // Show face detection section
-        document.getElementById('face-detection-section').classList.remove('hidden');
 
-        // Run face detection script
+    <script>
+    function startExperience() {
+        const videoContainer = document.getElementById('video-container');
+        const errorMessage = document.getElementById('errorMessage');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+
+        // Clear any previous error messages
+        errorMessage.textContent = '';
+        errorMessage.classList.add('hidden');
+
+        // Start face detection
         fetch('/run-face')
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    console.log('Face detection script started');
+                    // Create video feed
+                    const videoElement = document.createElement('img');
+                    videoElement.src = '/video_feed';
+                    videoElement.alt = 'Face Detection';
+                    videoElement.classList.add('w-full', 'rounded-lg', 'border-2', 'border-gray-300');
+                    videoContainer.innerHTML = '';
+                    videoContainer.appendChild(videoElement);
+
+                    // Toggle button visibility
+                    startButton.classList.add('hidden');
+                    stopButton.classList.remove('hidden');
                 } else {
-                    document.getElementById('errorMessage').textContent = data.message;
-                    document.getElementById('errorMessage').classList.remove('hidden');
+                    throw new Error(data.message || 'Face detection failed');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                document.getElementById('errorMessage').textContent = 'An error occurred';
-                document.getElementById('errorMessage').classList.remove('hidden');
+                errorMessage.textContent = error.message || 'An error occurred';
+                errorMessage.classList.remove('hidden');
             });
-    });
+    }
 
-    document.getElementById('runFaceDetectionBtn').addEventListener('click', function() {
-        // Add video feed dynamically
+    function stopExperience() {
         const videoContainer = document.getElementById('video-container');
-        const videoElement = document.createElement('img');
-        videoElement.src = '/video_feed';
-        videoElement.alt = 'Face Detection';
-        videoElement.classList.add('w-full', 'rounded-lg', 'border-2', 'border-gray-300');
-        videoContainer.innerHTML = '';
-        videoContainer.appendChild(videoElement);
-    });
-    </script>
-    </div>
+        const errorMessage = document.getElementById('errorMessage');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
 
+        // Clear any previous error messages
+        errorMessage.textContent = '';
+        errorMessage.classList.add('hidden');
+
+        // Stop face detection
+        fetch('/stop-face')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Clear video feed
+                    videoContainer.innerHTML = '';
+
+                    // Toggle button visibility
+                    startButton.classList.remove('hidden');
+                    stopButton.classList.add('hidden');
+                } else {
+                    throw new Error(data.message || 'Failed to stop face detection');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = error.message || 'An error occurred';
+                errorMessage.classList.remove('hidden');
+            });
+    }
+    </script>
     <script defer src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
