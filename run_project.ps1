@@ -3,16 +3,17 @@
 # Enable detailed error tracking
 $ErrorActionPreference = 'Stop'
 
-# Logging function
-function Write-Log {
-    param([string]$Message)
-    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    Write-Host "[$timestamp] $Message"
-}
-
-# Project directory setup
+# Project Directories
 $ProjectRoot = "d:\Invitation\Invitation"
 $SrcDir = Join-Path $ProjectRoot "src"
+$VenvDir = Join-Path $SrcDir "venv"
+
+# Logging Function
+function Write-Log {
+    param([string]$Message, [string]$Color = 'White')
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    Write-Host "[$timestamp] $Message" -ForegroundColor $Color
+}
 
 try {
     # Change to project directory
@@ -24,36 +25,27 @@ try {
     Write-Log "Python Version: $pythonVersion"
 
     # Virtual Environment Setup
-    $venvPath = Join-Path $SrcDir "venv"
-    if (-Not (Test-Path -Path $venvPath)) {
-        Write-Log "Creating virtual environment..."
-        python -m venv $venvPath
+    if (-Not (Test-Path -Path $VenvDir)) {
+        Write-Log "Creating virtual environment..." -Color Yellow
+        python -m venv $VenvDir
     }
 
     # Activate virtual environment
-    & "$venvPath\Scripts\Activate.ps1"
-    Write-Log "Virtual environment activated"
+    & "$VenvDir\Scripts\Activate.ps1"
+    Write-Log "Virtual environment activated" -Color Green
 
-    # Upgrade pip and setuptools
-    python -m pip install --upgrade pip setuptools
-    Write-Log "Upgraded pip and setuptools"
-
-    # Install project requirements
-    python -m pip install -r "$SrcDir\requirements.txt"
-    Write-Log "Installed project requirements"
-
-    # Run diagnostic script
-    Write-Log "Running system diagnostic..."
-    python system_diagnostic.py
+    # Install dependencies
+    Write-Log "Installing project dependencies..." -Color Yellow
+    python install_dependencies.py
 
     # Run Flask application
-    Write-Log "Starting Flask Application..."
+    Write-Log "Starting Flask Application..." -Color Cyan
     Set-Location $SrcDir
     python app.py
 }
 catch {
-    Write-Log "ERROR: $($_.Exception.Message)"
-    Write-Log "Detailed Error: $($_.ScriptStackTrace)"
+    Write-Log "ERROR: $($_.Exception.Message)" -Color Red
+    Write-Log "Detailed Error: $($_.ScriptStackTrace)" -Color Red
     Write-Host "An error occurred. Please check the log and ensure all dependencies are correctly installed." -ForegroundColor Red
 }
 finally {
