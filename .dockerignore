@@ -1,0 +1,32 @@
+# Version Control
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Development
+*.log
+.env
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Build and Deployment
+Dockerfile
+.dockerignore
+README.md
+
+# Unnecessary files
+*.md
+*.txt
+!requirements.txt

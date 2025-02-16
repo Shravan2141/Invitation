@@ -17,17 +17,17 @@ COPY src/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application
-COPY . .
+COPY src/ ./src/
 
 # Create necessary directories
 RUN mkdir -p /app/src/static /app/src/templates
 
 # Expose the port the app runs on
-EXPOSE 5000
+EXPOSE $PORT
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV FLASK_ENV=production
 
-# Use gunicorn for production
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--chdir", "src", "app:app"]
+# Use gunicorn for production with dynamic port
+CMD gunicorn --bind 0.0.0.0:$PORT --chdir src app:app
